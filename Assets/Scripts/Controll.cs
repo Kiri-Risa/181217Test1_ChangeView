@@ -5,7 +5,7 @@ using System;
 using Tobii.Gaming;
 using UnityEngine.UI;
 using UnityEngine.Video;
-using UnityEngine.SceneManagement
+using UnityEngine.SceneManagement;
 
 public class Controll : MonoBehaviour
 {

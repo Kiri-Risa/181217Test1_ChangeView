@@ -1,20 +1,27 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 using Tobii.Gaming.Internal;
 using Tobii.Gaming;
 
 
 public class Move : MonoBehaviour
 {
-    public Vector3 rotateRate = new Vector3(0, 0, 0);
-    public int CenterX = UnityEngine.Screen.width / 2;
-    public int CenterY = UnityEngine.Screen.height / 2;
+    private Vector3 rotateRate = new Vector3(0, 0, 0);
+    private int CenterX = UnityEngine.Screen.width / 2;
+    private int CenterY = UnityEngine.Screen.height / 2;
+    public Text text1;
+    public int MaxUD;
+    //private int MaxLR;
+    public int Speed;
+
+    private float SumA;
 
     // Use this for initialization
     void Start()
     {
-
+        SumA = 0;
     }
 
     // Update is called once per frame
@@ -31,15 +38,15 @@ public class Move : MonoBehaviour
         var point = gazePoint.GUI;
         if (point.x > CenterX)
         {
-            rotateRate.y = -50 * (point.x - CenterX) / CenterX;
+            rotateRate.z = -Speed * (point.x - CenterX) / CenterX;
         }
         else if (point.x < CenterX)
         {
-            rotateRate.y = 50 * (point.x - CenterX) / CenterX;
+            rotateRate.z = Speed * (CenterX - point.x) / CenterX;
         }
         else
         {
-            rotateRate.y = 0;
+            rotateRate.z = 0;
         }
     }
 
@@ -48,20 +55,36 @@ public class Move : MonoBehaviour
         var point = gazePoint.GUI;
         if (point.y > CenterY)
         {
-            rotateRate.x = -50 * (point.y - CenterY) / CenterY;
+            rotateRate.x = Speed * (point.y - CenterY) / CenterY;
         }
         else if (point.y < CenterY)
         {
-            rotateRate.x = 50 * (point.y - CenterY) / CenterY;
+            rotateRate.x = -Speed * (CenterY - point.y) / CenterY;
         }
         else
         {
             rotateRate.x = 0;
         }
+
+        SumA += rotateRate.x;
+
+        if (SumA > MaxUD)
+        {
+            SumA = MaxUD;
+            rotateRate.x = 0;
+        } else
+        {
+            if (SumA < -MaxUD)
+            {
+                SumA = -MaxUD;
+                rotateRate.x = 0;
+            }
+        }
     }
 
     void Rotate()
     {
+        text1.text ="SumA="+SumA;
         transform.Rotate(rotateRate * Time.deltaTime);
     }
 

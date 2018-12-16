@@ -11,7 +11,7 @@ public class Move : MonoBehaviour
     private Vector3 rotateRate = new Vector3(0, 0, 0);
     private int CenterX = UnityEngine.Screen.width / 2;
     private int CenterY = UnityEngine.Screen.height / 2;
-    public Text text1;
+    //public Text text1;
     public int MaxUD;
     //private int MaxLR;
     public int Speed;
@@ -84,7 +84,7 @@ public class Move : MonoBehaviour
 
     void Rotate()
     {
-        text1.text ="SumA="+SumA;
+        //text1.text ="SumA="+SumA;
         transform.Rotate(rotateRate * Time.deltaTime);
     }
 
